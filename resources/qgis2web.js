@@ -4,7 +4,7 @@ var map = new ol.Map({
     renderer: 'canvas',
     layers: layersList,
     view: new ol.View({
-        extent: [364234.734478, 4391338.134392, 940522.249622, 4660911.296361], maxZoom: 28, minZoom: 1, projection: new ol.proj.Projection({
+        extent: [348036.713664, 4400968.551715, 918438.606091, 4667788.563765], maxZoom: 28, minZoom: 1, projection: new ol.proj.Projection({
             code: 'EPSG:32633',
             //extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
             units: 'm'})
@@ -12,7 +12,7 @@ var map = new ol.Map({
 });
 
 //initial view - epsg:3857 coordinates if not "Match project CRS"
-map.getView().fit([364234.734478, 4391338.134392, 940522.249622, 4660911.296361], map.getSize());
+map.getView().fit([348036.713664, 4400968.551715, 918438.606091, 4667788.563765], map.getSize());
 
 ////small screen definition
     var hasTouchScreen = map.getViewport().classList.contains('ol-touch');
@@ -880,11 +880,39 @@ if (elementToMove && parentElement) {
 
 //layer search
 
+var searchLayer = new SearchLayer({
+    layer: lyr_Sites_general_13,
+    colName: '_Name',
+    zoom: 10,
+    collapsed: true,
+    map: map
+});
+map.addControl(searchLayer);
+document.getElementsByClassName('search-layer')[0].getElementsByTagName('button')[0].className += ' fa fa-binoculars';
+document.getElementsByClassName('search-layer-input-search')[0].placeholder = 'Search feature ...';
+    
 
 //scalebar
 
 
 //layerswitcher
+
+var layerSwitcher = new ol.control.LayerSwitcher({
+    activationMode: 'click',
+	startActive: true,
+	tipLabel: "Layers",
+    target: 'top-right-container',
+	collapseLabel: '»',
+	collapseTipLabel: 'Close'
+    });
+map.addControl(layerSwitcher);
+if (hasTouchScreen || isSmallScreen) {
+	document.addEventListener('DOMContentLoaded', function() {
+		setTimeout(function() {
+			layerSwitcher.hidePanel();
+		}, 500);
+	});	
+}
 
 
 
